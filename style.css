@@ -1,0 +1,14 @@
+h2 {
+  color: #292425;
+}
+
+.img-bg {
+  background: url(./assets/bg.jpg);
+  background-size: cover;
+  color: white;
+  text-shadow: 1px 1px 1px black;
+}
+
+.task-form input + button {
+  margin: 8px 0;
+}
