@@ -5,11 +5,14 @@ function viewModel() {
   self.addTask = function () {
     var task = {
       id: self.tasks().length + 1,
-      name: self.tasks(),
+      name: self.taskName(),
       isCompleted: false,
     };
 
     self.tasks.push(task);
+  };
+  self.removeTask = function () {
+    console.log('remove');
   };
 }
 
