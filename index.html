@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -21,6 +21,15 @@
     </div>
     <div class="container task-form">
       <h2>Cadastrar uma tarefa</h2>
+
+      <div
+        class="alert alert-danger"
+        role="alert"
+        data-bind="class: isErrored() ? 'a' : 'hidden' "
+      >
+        O Nome da tarefa deve ser informado
+      </div>
+
       <input
         class="form-control form-control-lg"
         type="text"
@@ -29,7 +38,7 @@
       />
       <button
         type="button"
-        data-bind="click: addTask"
+        data-bind="click:  function() { addTask() }"
         class="btn btn-primary btn-lg btn-block"
       >
         Adicionar uma nova tarefa
@@ -41,13 +50,133 @@
     >
       <div class="card m-1" style="width: 18rem">
         <div class="card-body">
+          <!-- Modal -->
+          <div
+            class="modal fade"
+            id="confirm"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">
+                    Confirmar remoção ?
+                  </h5>
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  certeza que deseja remover o tarefa
+                  <b data-bind="text: $data.name"></b> ?
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-dismiss="modal"
+                  >
+                    cancelar
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    data-bind="click: function() { $root.removeTask($data.id) }"
+                    data-dismiss="modal"
+                  >
+                    confirmar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal Editar -->
+          <div
+            class="modal fade"
+            id="edit"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">
+                    Editar Tarefa
+                  </h5>
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <a href="#" class="badge badge-light">Nome da Tarefa</a>
+                  <input
+                    class="form-control"
+                    data-bind="value: $root.taskToEdit().name"
+                  />
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-dismiss="modal"
+                  >
+                    cancelar
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    data-bind="click: function() { 
+                      $root.editTask(
+                        $root.taskToEdit().id, 
+                        $root.taskToEdit().name
+                      )}"
+                    data-dismiss="modal"
+                  >
+                    salvar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <h5 class="card-title" data-bind="text: $data.name"></h5>
-          <button href="#" class="btn btn-info">Concluido</button>
-          <button href="#" class="btn btn-warning">Editar</button>
+          <button
+            data-bind="
+            class: $data.isCompleted ? 'btn btn-success' : 'btn btn-light',
+            click: function() {$root.setCompleted($data.id)}
+            "
+          >
+            Concluido
+          </button>
+          <button
+            data-toggle="modal"
+            data-target="#edit"
+            class="btn btn-warning"
+            data-bind="click: function() { $root.taskToEdit($data)}"
+          >
+            Editar
+          </button>
           <button
             href="#"
             class="btn btn-danger"
-            data-bind="click: $root.removeTask"
+            data-toggle="modal"
+            data-target="#confirm"
           >
             Excluir
           </button>
@@ -55,6 +184,7 @@
       </div>
     </div>
   </body>
+
   <script
     src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -72,4 +202,11 @@
   ></script>
   <script type="text/javascript" src="knockout-3.5.1.js"></script>
   <script type="text/javascript" src="todo.js"></script>
+  <script>
+    document.addEventListener('keyup', function (event) {
+      if (event.key === 'Enter') {
+        vm.addTask();
+      }
+    });
+  </script>
 </html>

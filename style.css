@@ -12,3 +12,7 @@ h2 {
 .task-form input + button {
   margin: 8px 0;
 }
+
+.hidden {
+  display: none;
+}
