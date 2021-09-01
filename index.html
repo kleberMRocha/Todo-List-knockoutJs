@@ -21,13 +21,29 @@
     </div>
     <div class="container task-form">
       <h2>Cadastrar uma tarefa</h2>
-
       <div
         class="alert alert-danger"
         role="alert"
-        data-bind="class: isErrored() ? 'a' : 'hidden' "
+        data-bind="class: isErrored() ? '' : 'hidden' "
       >
         O Nome da tarefa deve ser informado
+      </div>
+      <h6>Total Tarefas <spam data-bind="text: $root.totalTarefas"></spam></h6>
+      <div class="progress m-3">
+        <div
+          role="progressbar"
+          data-bind="
+          style: { width: $root.totalTarefasConcluidas() ? totalTarefasConcluidas() + '%' : '0%' },
+          class: $root.totalTarefasConcluidas() < 50 
+          ? 'progress-bar bg-danger' 
+          : $root.totalTarefasConcluidas() > 85 
+          ? 'progress-bar bg-success' 
+          : 'progress-bar bg-warning' "
+          aria-valuemin="0"
+          aria-valuemax="100"
+        >
+          <spam data-bind="text : $root.totalTarefasConcluidas()+'%'"></spam>
+        </div>
       </div>
 
       <input

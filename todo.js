@@ -3,6 +3,20 @@ function viewModel() {
   self.tasks = ko.observableArray([]);
   self.isErrored = ko.observable(false);
   self.taskToEdit = ko.observable({});
+  self.totalTarefas = ko.computed(function () {
+    return self.tasks().length;
+  });
+  self.totalTarefasConcluidas = ko.computed(function () {
+    let totalTarefas = self.tasks().length;
+    let concluidas = 0;
+    for (var i = 0; i < totalTarefas; i++) {
+      if (self.tasks()[i].isCompleted) {
+        concluidas = concluidas += 1;
+      }
+    }
+
+    return concluidas ? Math.floor((concluidas * 100) / totalTarefas) : 0;
+  });
   self.taskName = ko.observable();
   self.addTask = function () {
     if (self.setError()) return;
