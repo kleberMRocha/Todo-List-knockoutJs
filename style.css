@@ -16,3 +16,13 @@ h2 {
 .hidden {
   display: none;
 }
+.titleTask {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 8px 0;
+}
+
+.titleTask h5 {
+  margin-top: 4px;
+}

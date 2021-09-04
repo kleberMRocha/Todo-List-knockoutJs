@@ -52,6 +52,16 @@
         placeholder="Titulo Tarefa"
         data-bind="value: taskName"
       />
+      <select
+        class="form-control form-control-lg mt-2 mb-2"
+        type="text"
+        placeholder="Titulo Tarefa"
+        data-bind="value: type"
+      >
+        <option value="Alta">Alta</option>
+        <option value="Média">Média</option>
+        <option value="Baixa">Baixa</option>
+      </select>
       <button
         type="button"
         data-bind="click:  function() { addTask() }"
@@ -145,6 +155,16 @@
                     class="form-control"
                     data-bind="value: $root.taskToEdit().name"
                   />
+                  <select
+                    class="form-control form-control-lg mt-2 mb-2"
+                    type="text"
+                    placeholder="Titulo Tarefa"
+                    data-bind="value: $root.taskToEdit().tipo"
+                  >
+                    <option value="Alta">Alta</option>
+                    <option value="Média">Média</option>
+                    <option value="Baixa">Baixa</option>
+                  </select>
                 </div>
                 <div class="modal-footer">
                   <button
@@ -160,7 +180,8 @@
                     data-bind="click: function() { 
                       $root.editTask(
                         $root.taskToEdit().id, 
-                        $root.taskToEdit().name
+                        $root.taskToEdit().name,
+                        $root.taskToEdit().tipo
                       )}"
                     data-dismiss="modal"
                   >
@@ -170,8 +191,18 @@
               </div>
             </div>
           </div>
+          <div class="titleTask">
+            <h5 class="card-title" data-bind="text: $data.name"></h5>
+            <span
+              data-bind="text: $data.tipo,
+              class: $data.tipo === 'Alta'
+              ? 'badge badge-danger' 
+              :  $data.tipo === 'Média' 
+              ? 'badge badge-warning'
+              : 'badge badge-info' "
+            ></span>
+          </div>
 
-          <h5 class="card-title" data-bind="text: $data.name"></h5>
           <button
             data-bind="
             class: $data.isCompleted ? 'btn btn-success' : 'btn btn-light',

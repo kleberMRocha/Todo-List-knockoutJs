@@ -17,13 +17,15 @@ function viewModel() {
 
     return concluidas ? Math.floor((concluidas * 100) / totalTarefas) : 0;
   });
-  self.taskName = ko.observable();
+  self.taskName = ko.observable('');
+  self.type = ko.observable('');
   self.addTask = function () {
     if (self.setError()) return;
 
     var task = {
       id: self.tasks().length,
       name: self.taskName(),
+      tipo: self.type(),
       isCompleted: false,
     };
 
@@ -59,6 +61,7 @@ function viewModel() {
         self.tasks()[i] = {
           id: id,
           name: self.tasks()[i].name,
+          tipo: self.tasks()[i].tipo,
           isCompleted: !self.tasks()[i].isCompleted,
         };
       }
@@ -66,7 +69,7 @@ function viewModel() {
     }
     self.tasks(updatedArray);
   };
-  self.editTask = function (id, nome) {
+  self.editTask = function (id, nome, tipo) {
     var updatedArray = [];
 
     for (let i = 0; i < self.tasks().length; i++) {
@@ -74,6 +77,7 @@ function viewModel() {
         self.tasks()[i] = {
           id: id,
           name: nome,
+          tipo: tipo,
           isCompleted: self.tasks()[i].isCompleted,
         };
       }
